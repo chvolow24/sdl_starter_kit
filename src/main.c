@@ -3,6 +3,7 @@
 #include "SDL.h"
 #include "draw.h"
 #include "window.h"
+#include "text.h"
 
 void init_SDL()
 {
@@ -12,12 +13,24 @@ void init_SDL()
     }
 }
 
+void init_SDL_ttf()
+{
+    if (TTF_Init() != 0) {
+        fprintf(stderr, "\nError: TTF_Init failed: %s", TTF_GetError());
+        exit(1);
+    }
+}
+
 
 int main()
 {
     init_SDL();
+    init_SDL_ttf();
 
     Window *main_win = create_window(1200, 900, "Hello there");
+
+    TTF_Font *open_sans = open_font("assets/OpenSans-Regular.ttf", 14, main_win);
+
     bool quit = false;
     while (!quit) {
         SDL_Event e;
